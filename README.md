@@ -1,17 +1,7 @@
-# Overview
-> This repository has two branches namely; main and production branches
->
-> The production branch is the one whose javascript files have already been processed
-
 # To use the product
 
-# Step 1
-> You can choose to either use already built js files or rebuild your own
-### To use the already built js files after cloning, use the command
-```
-git checkout production
-```
-### Or you can build the javascript files locally, using the commands below
+# Step 1 (Optional)
+### You can rebuild the javascript files locally, using the commands below
 <p>Note that you should have python2 installed</p>
 
 ```
