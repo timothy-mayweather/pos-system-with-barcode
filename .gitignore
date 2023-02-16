@@ -1,0 +1,22 @@
+/public/hot
+.idea
+#to rebuild delete the files or folders below
+#/public/js/bundle
+#/public/images/vendor
+#/public/js/main.js
+/node_modules
+/public/storage
+/storage/*.key
+/storage/framework/sessions/*
+!/storage/framework/sessions/sessions.txt
+/vendor
+.env
+.env.backup
+composer.lock
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.yarn
