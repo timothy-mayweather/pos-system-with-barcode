@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\TestDbController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
@@ -142,7 +140,7 @@ class SetupController extends Controller
 
     public function lastStep(Request $request)
     {
-        ini_set('max_execution_time', 600); //600 seconds = 10 minutes 
+        ini_set('max_execution_time', 600); //600 seconds = 10 minutes
 
         try {
             $this->changeEnv([
@@ -170,14 +168,14 @@ class SetupController extends Controller
             Artisan::call('passport:install --force');
             Storage::disk('public')->put('installed', 'Contents');
 
-            
+
         } catch (\Exception $e) {
-            
+
             return $e->getMessage();
-            
+
             return 'Something went wrong';
         }
-        
+
         return view('setup.finishedSetup');
     }
 
@@ -204,7 +202,7 @@ class SetupController extends Controller
         if (strlen($request->app_key) > 0) {
             $request->session()->put('env.APP_KEY', $request->app_key);
         }
-        
+
 
         return $this->viewStep2();
     }
